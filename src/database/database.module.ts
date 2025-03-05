@@ -10,8 +10,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         username: 'sa',
         password: '934194644',
         database: 'HistoricoGraficos_Reports',
-        autoLoadEntities: true,
-        synchronize: true,
+        entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+        synchronize: false,
         options: {
           encrypt: false, // Desactiva SSL si es necesario
           enableArithAbort: true,

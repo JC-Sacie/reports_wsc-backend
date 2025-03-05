@@ -1,12 +1,16 @@
 import { Module } from '@nestjs/common';
 import { HistoricsService } from './Historics.service';
 import { HistoricsController } from './Historics.controller';
-import { DatabaseModule } from '../database/database.module';
-import { DataSource } from 'typeorm';
+import { ColumnasHistoricos } from './Historics.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DatabaseModule } from 'src/database/database.module';
 
 @Module({
-  imports: [DatabaseModule],
-  providers: [HistoricsService],
-  controllers: [HistoricsController],
+    imports: [
+        DatabaseModule,
+        TypeOrmModule.forFeature([ColumnasHistoricos]),
+    ],
+    providers: [HistoricsService],
+    controllers: [HistoricsController],
 })
-export class HistoricsModule {}
+export class HistoricsModule { }

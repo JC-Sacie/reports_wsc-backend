@@ -5,11 +5,18 @@ import { HistoricsService } from './Historics.service';
 export class HistoricsController {
   constructor(private readonly historicsService: HistoricsService) {}
 
-  @Get()
+  @Get('view')
   async getViewHistorics(
-    @Query('dateStart') dateStart: string,
-    @Query('dateEnd') dateEnd: string
+    @Query('tagNames') tagNames?: string,
+    @Query('dateStart') dateStart?: string,
+    @Query('dateEnd') dateEnd?: string,
   ) {
-    return this.historicsService.getDynamicViewHistorics(dateStart, dateEnd);
+    const tagList = tagNames ? tagNames.split(',') : [];
+    return this.historicsService.getTagsBetween_Historics(tagList, dateStart, dateEnd,);
+  }
+
+  @Get('tags')
+  async getTagListHistorics() {
+    return this.historicsService.getTagList_Historics();
   }
 }
