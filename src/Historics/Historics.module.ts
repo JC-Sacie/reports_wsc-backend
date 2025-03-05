@@ -12,5 +12,6 @@ import { DatabaseModule } from 'src/database/database.module';
     ],
     providers: [HistoricsService],
     controllers: [HistoricsController],
+    exports: [HistoricsService],
 })
 export class HistoricsModule { }

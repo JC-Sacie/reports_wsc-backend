@@ -2,7 +2,7 @@ import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MessageDto } from 'src/common/message.dto';
 import { ColumnasHistoricos } from 'src/Historics/Historics.entity';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class HistoricsService {
@@ -31,8 +31,22 @@ export class HistoricsService {
 
       const whereConditions: string[] = [];
 
-      if (dateStart) {        
-        whereConditions.push(`T.time_stamp BETWEEN '${dateStart}' AND '${dateEnd ?? 'CURRENT_TIMESTAMP'}'`);
+      // Convertir las fechas de string a Date y luego a formato ISO
+      if (dateStart) {
+        const startDate = new Date(dateStart); // convierte a Date
+        const startDateString = startDate.toISOString(); // convierte a string en formato ISO
+        whereConditions.push(`T.time_stamp >= '${startDateString}'`);
+      }
+
+      if (dateEnd) {
+        const endDate = new Date(dateEnd); // convierte a Date
+        const endDateString = endDate.toISOString(); // convierte a string en formato ISO
+        whereConditions.push(`T.time_stamp <= '${endDateString}'`);
+      }
+
+      // Si no se pasa un dateEnd, usar el valor por defecto 'CURRENT_TIMESTAMP'
+      if (!dateEnd) {
+        whereConditions.push(`T.time_stamp <= CURRENT_TIMESTAMP`);
       }
 
       const whereClause = whereConditions.length > 0 ? `WHERE ${whereConditions.join(" AND ")}` : "";
