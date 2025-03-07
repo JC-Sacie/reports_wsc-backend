@@ -5,7 +5,7 @@ import * as fs from "fs";
 import { ApiBody, ApiResponse } from "@nestjs/swagger";
 import { GraphicElement, ReportConfig, ReportHistoricsParams, ReportParams } from "src/dto/Report.dto";
 import { HistoricsService } from "src/Historics/Historics.service";
-
+import { randomColor } from "randomcolor";
 @Controller("report")
 export class ReportController {
   constructor(
@@ -55,8 +55,7 @@ function transformDataToGraphics(rows: any[]): GraphicElement[] {
     if (!graphic) {
       graphic = {
         alias: row.TagName,
-        // Asigna un color, minEscala y maxEscala según tu lógica o valores predeterminados
-        colorGrafica: '#0000FF',
+        colorGrafica: randomColor(),
         minEscala: Infinity,
         maxEscala: -Infinity,
         muestrasHistoricos: [],
@@ -64,7 +63,7 @@ function transformDataToGraphics(rows: any[]): GraphicElement[] {
       graphics.push(graphic);
     }
     const value = Number(row.Value);
-    
+
     if (value === erroneousValue) {
       return; // Se ignora este registro
     }
