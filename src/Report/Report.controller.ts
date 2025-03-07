@@ -65,18 +65,23 @@ function transformDataToGraphics(rows: any[]): GraphicElement[] {
     const value = Number(row.Value);
 
     if (value === erroneousValue) {
-      return; // Se ignora este registro
-    }
-    graphic.muestrasHistoricos.push({
-      F: row.Time_Stamp,
-      V: value,
-    });
+      // En lugar de omitir el registro, se añade con valor null
+      graphic.muestrasHistoricos.push({
+        F: row.Time_Stamp,
+        V: null,
+      });
+    } else {
+      graphic.muestrasHistoricos.push({
+        F: row.Time_Stamp,
+        V: value,
+      });
 
-    if (value < graphic.minEscala) {
-      graphic.minEscala = value;
-    }
-    if (value > graphic.maxEscala) {
-      graphic.maxEscala = value;
+      if (value < graphic.minEscala) {
+        graphic.minEscala = value;
+      }
+      if (value > graphic.maxEscala) {
+        graphic.maxEscala = value;
+      }
     }
   });
 

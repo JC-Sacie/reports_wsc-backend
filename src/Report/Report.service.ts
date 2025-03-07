@@ -5,7 +5,7 @@ import * as fs from "fs-extra";
 import * as handlebars from "handlebars";
 import { HistoricsService } from "src/Historics/Historics.service";
 import { HistoricalPoint, ReportConfig, ReportHistoricsParams, GraphicElement } from "src/dto/Report.dto";
-import Highcharts, { Series } from "highcharts";
+import Highcharts from "highcharts";
 import moment from "moment-timezone";
 
 @Injectable()
@@ -155,11 +155,11 @@ export class ReportService {
     };
   }
   
-    private generateChart(): any {
-    const seriesData = this.generateSeries();
-
+  private generateChart(): any {
+    const seriesData = this.generateSeries(); // seriesData es un arreglo de series
+  
     this.chartOptions = [];
-
+  
     this.chartOptions.push({
       colorAxis: {
         minColor: "#4572A7",
@@ -170,7 +170,6 @@ export class ReportService {
         marginTop: 50,
         showAxes: true,
       },
-
       title: {
         text: "",
       },
@@ -198,52 +197,37 @@ export class ReportService {
         },
       },
       yAxis: this.yAxis,
-      series: seriesData,
-
+      series: seriesData, // Asigna directamente el arreglo de series
       credits: {
         enabled: false,
       },
     });
-
+  
     return this.chartOptions[0];
   }
 
-  private generateSeries(): Highcharts.SeriesOptionsType[] {
-    const series: Highcharts.SeriesOptionsType[] = [];
+  private generateSeries(): Highcharts.SeriesLineOptions[] {
+    const series: Highcharts.SeriesLineOptions[] = [];
     this.graphics.forEach((element) => {
+      // Ordena los datos por fecha
       element?.muestrasHistoricos?.sort(
         (a, b) =>
           new Date(a.F as string).getTime() - new Date(b.F as string).getTime()
       );
+  
       series.push({
         type: "line",
         name: element.alias as string,
-        data: element?.muestrasHistoricos?.reduce(
-          (
-            acc: {
-              data: (
-                | number
-                | [string | number, number | null]
-                | Highcharts.PointOptionsObject
-                | null
-              )[];
-            },
-            muestra: HistoricalPoint
-          ) => {
-            acc.data.push([
-              moment(muestra.F as string)
-                .utc(true)
-                .valueOf(),
-              muestra.V ?? undefined,
-            ]);
-            return acc;
-          },
-          { data: [] }
-        ).data,
+        data: element?.muestrasHistoricos?.map((muestra: HistoricalPoint) => [
+          moment(muestra.F as string).utc(true).valueOf(),
+          muestra.V ?? undefined,
+        ]),
         color: element.colorGrafica as string,
         yAxis: 0,
+        connectNulls: false, // Aquí se establece que NO se conecten los puntos nulos
       });
-
+  
+      // Puedes configurar el eje Y en función de cada serie si es necesario
       this.yAxis = [
         {
           title: {
@@ -270,7 +254,7 @@ export class ReportService {
         },
       ];
     });
-
+  
     return series;
   }
 }
