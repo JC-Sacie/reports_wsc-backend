@@ -1,0 +1,39 @@
+<div class="document-info">
+    <h2>Datos Históricos</h2>
+    <p>{{ formatDate tableData.filter.fechaInicioUtc }} - {{ formatDate tableData.filter.fechaFinUtc }}</p>
+ </div>
+
+  {{#each tableData.table}}
+    <div class="tag-info">
+      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+        <rect width="20" height="20" rx="5" ry="5" fill="{{this.color}}" />
+      </svg>
+      <p class="alias">{{this.alias}}
+      </p>
+    </div>
+
+    <table class="table-data">
+      <thead>
+        <tr>
+          <th>Valor</th>
+          <th>Fecha UTC</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each this.items}}
+          <tr>
+            <td>
+              {{#if this.valor}}
+                {{this.valor}} {{../unit}}
+              {{else}}
+                N/A
+              {{/if}}
+            </td>
+            <td>
+              {{formatDate this.fechaUtc}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/each}}
