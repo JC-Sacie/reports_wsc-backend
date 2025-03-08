@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as path from "path";
+import { join } from "path";  
 
 async function bootstrap() {
   const options = new DocumentBuilder()
@@ -18,7 +20,8 @@ async function bootstrap() {
     }),
   );
   app.setViewEngine('hbs');
-  //app.setBaseViewsDir(path.join(__dirname, '..', 'views'));
+  app.useStaticAssets(join(__dirname, "..", "public"));
+  app.setBaseViewsDir(path.join(__dirname, "..", "views"));
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
   //app.useLogger(new CustomLogger());

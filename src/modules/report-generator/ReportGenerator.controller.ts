@@ -1,10 +1,10 @@
 import { Controller, Post, Body, Res, UsePipes, ValidationPipe } from "@nestjs/common";
-import { ReportService } from "./Report.service";
+import { ReportService } from "./ReportGenerator.service";
 import { Response } from "express";
 import * as fs from "fs";
 import { ApiBody, ApiResponse } from "@nestjs/swagger";
-import { GraphicElement, ReportConfig, ReportHistoricsParams, ReportParams } from "src/dto/Report.dto";
-import { HistoricsService } from "src/Historics/Historics.service";
+import { GraphicElement, ReportConfig, ReportHistoricsParams, ReportParams } from "src/modules/report-generator/dto/ReportGenerator.dto";
+import { HistoricsService } from "src/modules/historics/Historics.service";
 import { randomColor } from "randomcolor";
 @Controller("report")
 export class ReportController {

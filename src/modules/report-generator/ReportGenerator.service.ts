@@ -3,8 +3,8 @@ import * as path from "path";
 import * as puppeteer from "puppeteer";
 import * as fs from "fs-extra";
 import * as handlebars from "handlebars";
-import { HistoricsService } from "src/Historics/Historics.service";
-import { HistoricalPoint, ReportConfig, ReportHistoricsParams, GraphicElement } from "src/dto/Report.dto";
+import { HistoricsService } from "src/modules/historics/Historics.service";
+import { HistoricalPoint, ReportConfig, ReportHistoricsParams, GraphicElement } from "src/modules/report-generator/dto/ReportGenerator.dto";
 import Highcharts from "highcharts";
 import moment from "moment-timezone";
 
@@ -60,7 +60,7 @@ export class ReportService {
 
   private async registerPartials() {
    try{ 
-    const partialsDir = path.join(__dirname, "../../views/templates");
+    const partialsDir = path.join(__dirname, "../../../views/partials");
     const files = await fs.readdir(partialsDir);
 
     for (const file of files) {
@@ -81,7 +81,7 @@ export class ReportService {
 
   async generateReport(config: ReportConfig): Promise<string> {  
     try {
-    const templatePath = path.join(__dirname, "../../views/Report.hbs");
+    const templatePath = path.join(__dirname, "../../../views/Report.hbs");
     const templateContent = await fs.readFile(templatePath, "utf-8");
     const template = handlebars.compile(templateContent);
 
@@ -93,7 +93,7 @@ export class ReportService {
     });
     const page = await browser.newPage();
     await page.setContent(htmlContent, { waitUntil: "networkidle0" });
-    const outputPath = path.join(__dirname, "../../", "views", "file.pdf");
+    const outputPath = path.join(__dirname, "../../../", "views", "file.pdf");
     await page.pdf({
       path: outputPath,
       format: "A4",

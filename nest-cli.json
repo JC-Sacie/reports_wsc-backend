@@ -3,8 +3,8 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "assets": [{
-    "include": "views/**/*",
-    "outDir": "./dist/views"
+    "include": "modules/report-generator/views/**/*",
+    "outDir": "views"
     }],
   "compilerOptions": {
     "deleteOutDir": true,

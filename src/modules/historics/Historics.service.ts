@@ -1,7 +1,7 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MessageDto } from 'src/common/message.dto';
-import { ColumnasHistoricos } from 'src/Historics/Historics.entity';
+import { ColumnasHistoricos } from 'src/modules/historics/Historics.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
