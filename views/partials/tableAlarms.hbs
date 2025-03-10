@@ -1,0 +1,55 @@
+<div class="document-info">
+    <h2>Alarmas</h2>
+    <p>{{ formatDate tableData.filter.dateStart }} - {{ formatDate tableData.filter.dateEnd }}</p>
+ </div>
+
+  {{#each tableData.table}}
+    <div class="tag-info">
+      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+        <rect width="20" height="20" rx="5" ry="5" fill="{{this.color}}" />
+      </svg>
+      <p class="alias">{{this.alias}}
+      </p>
+    </div>
+
+    <table class="table-data">
+      <thead>
+        <tr>
+          <th>Fecha Evento</th>
+          <th>Tipo</th>
+          <th>Valor</th>
+          <th>Mensaje</th>
+          <th>Duracion</th>
+          <th>Usuario</th>
+          <th>Comentarios</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each this.items}}
+          <tr>
+            <td>
+                {{formatDate this.date}}
+            </td>
+            <td>
+              {{this.type}}
+            </td>
+            <td>
+              {{this.value}}
+            </td>
+            <td>
+              {{this.message}}
+            </td>
+            <td>
+              {{this.duration}}
+            </td>
+            <td>
+              {{this.user}}
+            </td>
+            <td>
+              {{this.comment}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/each}}

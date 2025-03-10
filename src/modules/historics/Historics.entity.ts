@@ -1,7 +1,7 @@
 import { ViewColumn, ViewEntity } from 'typeorm';
 
-@ViewEntity('ColumnasHistoricos')
-export class ColumnasHistoricos {
+@ViewEntity('ViewHistoricos')
+export class ViewHistoricos {
 
   @ViewColumn()
   Columna: string;
